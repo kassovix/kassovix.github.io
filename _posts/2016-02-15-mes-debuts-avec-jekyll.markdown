@@ -95,7 +95,7 @@ Je peux ainsi utiliser mon formatage avec la ligne suivante :
 
 ### Tips d'hiver
 
-Pour avoir la liste des langages qui peuvent être syntaxiquement colorés avec la balise `{% raw %}{% highlight %}{% endraw %}`, lancer en ligne de commande :
+Pour avoir la liste des langages qui peuvent être syntaxiquement colorés avec la balise `{% raw %}{% highlight %}{% endraw %}`, consulter la [page wiki](https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers) du projet _rouge_ (plugin de coloration utilisé par Jekyll) ou lancer en ligne de commande :
 {% highlight sh %}
 rougify list
 {% endhighlight %}
