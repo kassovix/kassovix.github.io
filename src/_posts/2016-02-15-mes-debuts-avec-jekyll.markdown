@@ -1,39 +1,30 @@
 ---
 layout: post
 title:  "Mes débuts avec Jekyll"
-date:   2016-02-15 20:55:06 +0000
+date:   2018-09-15 20:55:06 +0000
 categories: jekyll update
 ---
 
-Dans le but de mettre sur pied un blog utilisant GitHub Pages, j'ai voulu expérimenter le moteur de rendu de Jekyll. Pour ce faire, l'installation des pré-requis étant particulièrement ardu sous Windows, j'ai légèrement modifié le conteneur Jekyll officiel pour mon besoin (partagé sur [mon Docker Hub]). Je vais ici partager les étapes que j'ai mis en oeuvre.
+Dans le but de mettre sur pied un blog utilisant _GitHub Pages_, j'avais expérimenté un 2016 le moteur de rendu de _Jekyll_. 
+
+Pour la mise en place de ce nouveau blog (hébergement dédié), j'ai donc décidé de réitérer l'expérience en exploitant mon serveur _Rancher_. Je vais ici partager le détail de la mise en oeuvre.
 
 ## Environnement de développement 
 
 ### Installation de Docker
-Pour l'installation et les premiers pas sous Docker, j'ai simplement suivi le [tutoriel officiel](https://docs.docker.com/windows/) pour Windows.
+Il suffit de suivre le [guide d'installation](https://docs.docker.com/) correspondant à votre système d'exploitation.
 
 ### Conteneur Jekyll
 Sur le DockerHub, une simple recherche de Jekyll m'a amené sur le [conteneur officiel Jekyll](https://hub.docker.com/r/jekyll/jekyll/).
-Malheureusement, celui-ci ne possède pas de Volume permettant de faire facilement le pont avec les fichiers Windows, comme on peut le constater dans Kitematic :
+Il existe dans les tags également une version _minimal_ que j'utilise pour ce blog.
 
-![Conteneur Jekyll sous Kitematic]({{site.baseurl}}/images/2016-02-21 21_43_14-Kitematic.png "Conteneur Jekyll sous Kitematic : pas de volume partagé")
+En mode développement (ou plutôt rédaction), il suffit de lancer le conteneur depuis les sources pour consulter le résultat sur http://localhost :
 
+```
+docker run -it --rm -p 80:4000 -v `pwd`/src:/srv/jekyll --name dev_jekyll jekyll/minimal jekyll serve
+```
 
-### Personnalisation du conteneur
-J'ai créé les Dockerfile suivant, pour ajouter un Volume au conteneur :
-{% highlight docker %}
-
-FROM jekyll/jekyll
-
-VOLUME /srv/jekyll
-
-{% endhighlight %}
-
-J'ai donc la possibilité de partager le répertoire de travail entre le conteneur et Windows, qui est également le dépôt Git à pousser sur GitHub pour la sauvegarde (ainsi que la mise en ligne) :
-
-![Conteneur kassovix/Jekyll sous Kitematic]({{site.baseurl}}/images/2016-02-21 22_01_14-Kitematic.png "Conteneur kassovix/Jekyll sous Kitematic : avec volume partagé")
-
-Vous pouvez télécharger ce conteneur directement depuis [mon DockerHub](https://hub.docker.com/r/kassovix/jekyll/).
+Chaque modification de fichier est détecté par Jekyll, qui génère automatiquement les nouvelles sources HTML.
 
 ## Utilisation de Jekyll
 
@@ -49,20 +40,19 @@ Pour initialiser un site (avec l'arborescence des dossiers + des fichiers d'exem
 jekyll new .
 {% endhighlight %}
 
-Les fichiers apparaissent également dans le répertoire Windows partagé avec le conteneur Docker.
+Les fichiers apparaissent également dans le répertoire partagé avec le conteneur Docker.
 
 ### Rédaction du premier post
 
 Pour rédiger un article, il suffit de s'inspirer de l'exemple présent dans le dossier __posts_, et de parcourir la [documentation officielle](https://jekyllrb.com/docs/posts/) pour apprendre la syntaxe. 
 Vous pouvez également jeter un oeil au code source du présent article sur le [dépôt de ce blog](https://github.com/kassovix/kassovix.github.io).
 
-**Avertissement /!\\** : Si vous avez rédigé un bel article, mais que celui ne s'affiche pas lors du rafraichissement du blog dans votre navigateur, ne désespérez pas tout de suite !
-Pourtant, la commande _jekyll serve_ détecte normalement les fichiers modifiés et met à jour le site automatiquement, me direz-vous. 
-Vrai, mais ici Docker apporte une limitation : les fichiers modifiés sous Windows ne sont pas détectés comme tels par Jekyll.
+**/!\\ Avertissement (Windows only)** : Si vous avez rédigé un bel article, mais que celui ne s'affiche pas lors du rafraichissement du blog dans votre navigateur, ne désespérez pas tout de suite !
+La commande _jekyll serve_ détecte normalement les fichiers modifiés et met à jour le site automatiquement, mais ceci n'est pas instantané avec les volumes Windows ...
 
-**Astuce \o/** : Un _touch_ dans la console du conteneur (à lancer depuis le lien EXEC de Kinematic par exemple) sur n'importe quel fichier lancera la mise à jour de votre site  :
+**Astuce \o/** : Un _touch_ dans la console du conteneur (à lancer via un _exec_ par exemple) sur n'importe quel fichier lancera la mise à jour de votre site  :
 {% highlight sh %}
-touch index.html
+docker exec dev_jekyll touch /srv/jekyll/index.html
 {% endhighlight %}
 
 ### Personnalisation du format de la date
