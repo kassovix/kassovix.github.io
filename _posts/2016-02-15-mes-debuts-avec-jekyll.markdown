@@ -5,9 +5,7 @@ date:   2018-09-15 20:55:06 +0000
 categories: jekyll docker
 ---
 
-Dans le but de mettre sur pied un blog utilisant _GitHub Pages_, j'avais expérimenté un 2016 le moteur de rendu de _Jekyll_. 
-
-Pour la mise en place de ce nouveau blog (hébergement dédié), j'ai donc décidé de réitérer l'expérience en exploitant mon serveur _Rancher_. Je vais ici partager le détail de la mise en oeuvre.
+Dans le but de mettre sur pied un blog utilisant _GitHub Pages_, j'ai expérimenté le moteur de rendu de _Jekyll_. Je vais ici partager le détail de la mise en oeuvre.
 
 ## Environnement de développement 
 
