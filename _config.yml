@@ -18,3 +18,5 @@ github_username:  kassovix
 
 # Build settings
 markdown: kramdown
+
+theme: jekyll-theme-cayman
