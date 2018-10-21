@@ -2,7 +2,7 @@
 layout: post
 title:  "Mes débuts avec Jekyll"
 date:   2018-09-15 20:55:06 +0000
-categories: jekyll update
+categories: jekyll docker
 ---
 
 Dans le but de mettre sur pied un blog utilisant _GitHub Pages_, j'avais expérimenté un 2016 le moteur de rendu de _Jekyll_. 
@@ -21,7 +21,7 @@ Il existe dans les tags également une version _minimal_ que j'utilise pour ce b
 En mode développement (ou plutôt rédaction), il suffit de lancer le conteneur depuis les sources pour consulter le résultat sur http://localhost :
 
 ```
-docker run -it --rm -p 80:4000 -v `pwd`/src:/srv/jekyll --name dev_jekyll jekyll/minimal jekyll serve
+docker run -it --rm -p 80:4000 -v `pwd`:/srv/jekyll --name dev_jekyll jekyll/minimal jekyll serve
 ```
 
 Chaque modification de fichier est détecté par Jekyll, qui génère automatiquement les nouvelles sources HTML.
