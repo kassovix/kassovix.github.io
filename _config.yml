@@ -20,3 +20,5 @@ github_username:  kassovix
 markdown: kramdown
 
 theme: jekyll-theme-cayman
+
+show_downloads: false
